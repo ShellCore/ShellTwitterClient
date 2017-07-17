@@ -3,4 +3,9 @@
 
     <!--Login-->
     <string name="login.error.message">Imposible iniciar sesión: %s</string>
+
+    <!--Main-->
+    <string name="main.header.images">Imágenes</string>
+    <string name="main.header.hashtags">Hashtags</string>
+    <string name="main.menu.action.logout">Cerrar sesión</string>
 </resources>
