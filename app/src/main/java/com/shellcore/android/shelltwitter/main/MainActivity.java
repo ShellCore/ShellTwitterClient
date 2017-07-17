@@ -1,5 +1,6 @@
 package com.shellcore.android.shelltwitter.main;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,9 @@ import android.view.MenuItem;
 
 import com.shellcore.android.shelltwitter.LoginActivity;
 import com.shellcore.android.shelltwitter.R;
+import com.shellcore.android.shelltwitter.hashtags.HashtagsFragment;
+import com.shellcore.android.shelltwitter.images.ImagesFragment;
+import com.shellcore.android.shelltwitter.main.adapter.MainSectionsPagerAdapter;
 import com.twitter.sdk.android.core.TwitterCore;
 
 import butterknife.BindView;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
+        setupAdapter();
     }
 
     @Override
@@ -49,6 +55,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupAdapter() {
+        String[] titles = new String[] {
+                getString(R.string.main_header_images),
+                getString(R.string.main_header_hashtags)
+        };
+
+        Fragment[] fragments = new Fragment[] {
+                new ImagesFragment(),
+                new HashtagsFragment()
+        };
+
+        MainSectionsPagerAdapter adapter = new MainSectionsPagerAdapter(getFragmentManager(), titles, fragments);
+
+        container.setAdapter(adapter);
+        tabs.setupWithViewPager(container);
     }
 
     private void logout() {
