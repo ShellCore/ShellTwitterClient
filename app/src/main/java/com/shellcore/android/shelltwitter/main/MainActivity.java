@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.shellcore.android.shelltwitter.LoginActivity;
 import com.shellcore.android.shelltwitter.R;
 import com.shellcore.android.shelltwitter.hashtags.HashtagsFragment;
-import com.shellcore.android.shelltwitter.images.ImagesFragment;
+import com.shellcore.android.shelltwitter.images.ui.ImagesFragment;
 import com.shellcore.android.shelltwitter.main.adapter.MainSectionsPagerAdapter;
 import com.twitter.sdk.android.core.TwitterCore;
 
