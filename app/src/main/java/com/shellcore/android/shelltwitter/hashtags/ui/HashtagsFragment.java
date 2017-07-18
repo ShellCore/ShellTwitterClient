@@ -15,12 +15,16 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.shellcore.android.shelltwitter.R;
+import com.shellcore.android.shelltwitter.TwitterClientApp;
 import com.shellcore.android.shelltwitter.entities.Hashtag;
 import com.shellcore.android.shelltwitter.hashtags.HashtagsPresenter;
 import com.shellcore.android.shelltwitter.hashtags.adapters.HashtagsAdapter;
 import com.shellcore.android.shelltwitter.hashtags.adapters.OnItemClickListener;
+import com.shellcore.android.shelltwitter.hashtags.di.HashtagsComponent;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +38,9 @@ public class HashtagsFragment extends Fragment implements HashtagsView, OnItemCl
     @BindView(R.id.container)
     FrameLayout container;
 
-
+    @Inject
     HashtagsAdapter adapter;
+    @Inject
     HashtagsPresenter presenter;
 
 
@@ -56,13 +61,22 @@ public class HashtagsFragment extends Fragment implements HashtagsView, OnItemCl
         return view;
     }
 
-    private void setupInjection() {
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.onResume();
     }
 
-    private void setupRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+    @Override
+    public void onPause() {
+        presenter.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -100,5 +114,16 @@ public class HashtagsFragment extends Fragment implements HashtagsView, OnItemCl
     @Override
     public void setContent(List<Hashtag> hashtags) {
         adapter.setItems(hashtags);
+    }
+
+    private void setupInjection() {
+        TwitterClientApp app = (TwitterClientApp) getActivity().getApplication();
+        HashtagsComponent component = app.getHashtagsComponent(this, this);
+        component.inject(this);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
     }
 }

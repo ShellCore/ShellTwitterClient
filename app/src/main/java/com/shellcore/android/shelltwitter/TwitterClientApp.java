@@ -4,6 +4,10 @@ import android.app.Application;
 import android.app.Fragment;
 import android.util.Log;
 
+import com.shellcore.android.shelltwitter.hashtags.di.DaggerHashtagsComponent;
+import com.shellcore.android.shelltwitter.hashtags.di.HashtagsComponent;
+import com.shellcore.android.shelltwitter.hashtags.di.HashtagsModule;
+import com.shellcore.android.shelltwitter.hashtags.ui.HashtagsView;
 import com.shellcore.android.shelltwitter.images.adapters.OnItemClickListener;
 import com.shellcore.android.shelltwitter.images.di.DaggerImagesComponent;
 import com.shellcore.android.shelltwitter.images.di.ImagesComponent;
@@ -40,6 +44,13 @@ public class TwitterClientApp extends Application {
         return DaggerImagesComponent.builder()
                 .libsModule(new LibsModule(fragment))
                 .imagesModule(new ImagesModule(view, clickListener))
+                .build();
+    }
+
+    public HashtagsComponent getHashtagsComponent( HashtagsView view, com.shellcore.android.shelltwitter.hashtags.adapters.OnItemClickListener clickListener) {
+        return DaggerHashtagsComponent.builder()
+                .libsModule(new LibsModule(null))
+                .hashtagsModule(new HashtagsModule(view, clickListener))
                 .build();
     }
 }
