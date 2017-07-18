@@ -1,8 +1,15 @@
 package com.shellcore.android.shelltwitter;
 
 import android.app.Application;
+import android.app.Fragment;
 import android.util.Log;
 
+import com.shellcore.android.shelltwitter.images.adapters.OnItemClickListener;
+import com.shellcore.android.shelltwitter.images.di.DaggerImagesComponent;
+import com.shellcore.android.shelltwitter.images.di.ImagesComponent;
+import com.shellcore.android.shelltwitter.images.di.ImagesModule;
+import com.shellcore.android.shelltwitter.images.ui.ImagesView;
+import com.shellcore.android.shelltwitter.lib.di.LibsModule;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -27,5 +34,12 @@ public class TwitterClientApp extends Application {
                 .debug(true)
                 .build();
         Twitter.initialize(config);
+    }
+
+    public ImagesComponent getImagesComponent(Fragment fragment, ImagesView view, OnItemClickListener clickListener) {
+        return DaggerImagesComponent.builder()
+                .libsModule(new LibsModule(fragment))
+                .imagesModule(new ImagesModule(view, clickListener))
+                .build();
     }
 }

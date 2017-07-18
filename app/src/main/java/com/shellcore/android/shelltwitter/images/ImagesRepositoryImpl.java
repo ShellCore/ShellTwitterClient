@@ -4,6 +4,7 @@ import com.shellcore.android.shelltwitter.api.CustomTwitterApiClient;
 import com.shellcore.android.shelltwitter.entities.Image;
 import com.shellcore.android.shelltwitter.images.events.ImagesEvent;
 import com.shellcore.android.shelltwitter.lib.base.EventBus;
+import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.MediaEntity;
@@ -14,13 +15,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import retrofit2.Callback;
+import retrofit2.Call;
 
 /**
  * Created by Cesar on 17/07/2017.
  */
 
-class ImagesRepositoryImpl implements ImagesRepository {
+public class ImagesRepositoryImpl implements ImagesRepository {
 
     private final static int TWEET_COUNT = 100;
 
@@ -34,7 +35,9 @@ class ImagesRepositoryImpl implements ImagesRepository {
 
     @Override
     public void getImages() {
-        Callback<List<Tweet>> callback = new com.twitter.sdk.android.core.Callback<List<Tweet>>() {
+        Call<List<Tweet>> callback = client.getTimelineService()
+                .homeTimeline(TWEET_COUNT, true, true, true, true);
+        callback.enqueue(new Callback<List<Tweet>>() {
             @Override
             public void success(Result<List<Tweet>> result) {
                 List<Image> images = new ArrayList<>();
@@ -73,9 +76,7 @@ class ImagesRepositoryImpl implements ImagesRepository {
             public void failure(TwitterException exception) {
                 post(exception.getLocalizedMessage());
             }
-        };
-        client.getTimelineService()
-                .homeTimeline(TWEET_COUNT, false, false, false, false, callback);
+        });
     }
 
     private boolean containsImages(Tweet tweet) {

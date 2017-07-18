@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,16 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.shellcore.android.shelltwitter.R;
+import com.shellcore.android.shelltwitter.TwitterClientApp;
 import com.shellcore.android.shelltwitter.entities.Image;
 import com.shellcore.android.shelltwitter.images.ImagesPresenter;
 import com.shellcore.android.shelltwitter.images.adapters.ImagesAdapter;
 import com.shellcore.android.shelltwitter.images.adapters.OnItemClickListener;
+import com.shellcore.android.shelltwitter.images.di.ImagesComponent;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +41,12 @@ public class ImagesFragment extends Fragment implements ImagesView, OnItemClickL
     RecyclerView recyclerView;
 
     // Servicios
-    private ImagesPresenter presenter;
+    @Inject
+    ImagesPresenter presenter;
 
     // Variables
-    private ImagesAdapter adapter;
+    @Inject
+    ImagesAdapter adapter;
 
     public ImagesFragment() {
     }
@@ -49,6 +56,11 @@ public class ImagesFragment extends Fragment implements ImagesView, OnItemClickL
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_content, container, false);
         ButterKnife.bind(this, v);
+
+        setupInjection();
+        setupRecyclerView();
+        presenter.getImageTweets();
+
         return v;
     }
 
@@ -105,5 +117,16 @@ public class ImagesFragment extends Fragment implements ImagesView, OnItemClickL
     @Override
     public void setContent(List<Image> items) {
         adapter.setImages(items);
+    }
+
+    private void setupInjection() {
+        TwitterClientApp app = (TwitterClientApp) getActivity().getApplication();
+        ImagesComponent imagesComponent = app.getImagesComponent(this, this, this);
+        imagesComponent.inject(this);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setAdapter(adapter);
     }
 }

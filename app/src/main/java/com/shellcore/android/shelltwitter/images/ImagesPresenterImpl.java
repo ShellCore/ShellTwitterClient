@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by Cesar on 17/07/2017.
  */
 
-class ImagesPresenterImpl implements ImagesPresenter {
+public class ImagesPresenterImpl implements ImagesPresenter {
 
     private EventBus eventBus;
     private ImagesView view;

@@ -4,7 +4,7 @@ package com.shellcore.android.shelltwitter.images;
  * Created by Cesar on 17/07/2017.
  */
 
-class ImagesInteractorImpl implements ImagesInteractor {
+public class ImagesInteractorImpl implements ImagesInteractor {
 
     private ImagesRepository repository;
 
