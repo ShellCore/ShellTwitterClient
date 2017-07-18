@@ -1,4 +1,4 @@
-package com.shellcore.android.shelltwitter.hashtags;
+package com.shellcore.android.shelltwitter.hashtags.ui;
 
 
 import android.app.Fragment;

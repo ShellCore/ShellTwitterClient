@@ -1,0 +1,53 @@
+package com.shellcore.android.shelltwitter.entities;
+
+import java.util.List;
+
+/**
+ * Created by Cesar on 18/07/2017.
+ */
+
+public class Hashtag {
+
+    private static final String BASE_TWEET_URL = "https://twitter.com/null/status/";
+
+    private String id;
+    private String tweetText;
+    private int favoriteCount;
+    private List<String> hashtags;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTweetText() {
+        return tweetText;
+    }
+
+    public void setTweetText(String tweetText) {
+        this.tweetText = tweetText;
+    }
+
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public List<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(List<String> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    public String getTweeturl() {
+        return BASE_TWEET_URL + id;
+    }
+}
