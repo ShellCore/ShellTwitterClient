@@ -52,6 +52,11 @@ public class HashtagsAdapter extends RecyclerView.Adapter<HashtagsAdapter.ViewHo
         return hashtags.size();
     }
 
+    public void setItems(List<Hashtag> newHashtags) {
+        hashtags.addAll(newHashtags);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private View view;
