@@ -65,23 +65,19 @@ public class CustomGridLayoutManager extends GridLayoutManager {
     }
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec, int heightSpec, int[] measuredDimension) {
-        if (getItemCount() > 0) {
+        try {
+            View v = recycler.getViewForPosition(position);
+            if (v != null) {
+                RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) v.getLayoutParams();
+                int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec, getPaddingLeft() + getPaddingRight(), p.width);
+                int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec, getPaddingTop() + getPaddingBottom(), p.height);
+                v.measure(childWidthSpec, childHeightSpec);
 
-            try {
-                View v = recycler.getViewForPosition(position);
-                if (v != null) {
-                    RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) v.getLayoutParams();
-                    int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec, getPaddingLeft() + getPaddingRight(), p.width);
-                    int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec, getPaddingTop() + getPaddingBottom(), p.height);
-                    v.measure(childWidthSpec, childHeightSpec);
-
-                    measuredDimension[0] = v.getMeasuredWidth() + p.leftMargin + p.rightMargin;
-                    measuredDimension[1] = v.getMeasuredHeight() + p.topMargin + p.bottomMargin;
-                    recycler.recycleView(v);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                measuredDimension[0] = v.getMeasuredWidth() + p.leftMargin + p.rightMargin;
+                measuredDimension[1] = v.getMeasuredHeight() + p.topMargin + p.bottomMargin;
+                recycler.recycleView(v);
             }
+        } catch (Exception e) {
         }
     }
 
