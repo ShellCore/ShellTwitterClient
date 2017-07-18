@@ -1,4 +1,4 @@
-# Shell Twitter Client
+# ![alt-text][logo] Shell Twitter Client
 
 ## Descripción
 
